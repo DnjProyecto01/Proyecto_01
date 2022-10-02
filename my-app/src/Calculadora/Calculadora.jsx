@@ -59,29 +59,7 @@ function Calculadora() {
     console.log("🚀 ~ file: Calculadora.jsx ~ line 59 ~ crearHistorial ~ res", res.data)
     
   }
-
-  /*
-  METODO = FUNCION
-
-  TIPOS DE FUNCIONES EN JAVASCRIPT
-
-  (1)
-  FUNCION: HACER ALGO
-  PARAMETROS: LO QUE NECESITO PARA HACER LA FUNCION
-  function crearHistorial(parametro1, param2....){
-     
-  }
-
-  (2)
-  (Funcion Flecha) - ARROW FUNCTION
-  (parametro1, param2....) => {
-    
-  }
-
-
-  */
-
-
+  
   useEffect(() => {
 
   }, []);
