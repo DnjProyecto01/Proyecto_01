@@ -4,11 +4,12 @@ import morgan from 'morgan'
 import cors from 'cors'
 import responseTime from 'response-time'
 import historialRutas from './rutas/historial.rutas'
+import config from './config'
 
 //Creamos una clase "EXPRESS" con el nombre "app"
 const app = express() 
 //Colocar(atributo, valor del atributo)
-app.set('puerto', 3001);
+app.set('puerto', config.PORT);
 
 
 /*
