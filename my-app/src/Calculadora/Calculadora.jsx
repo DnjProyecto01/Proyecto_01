@@ -39,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
 
 function Calculadora() {
   console.log("render")
-
   const classes = useStyles();
 
   //CREANDO LAS CONSTANTES
@@ -55,21 +54,21 @@ function Calculadora() {
     const historialData = {
       'operacionH': historial
     }
+    console.log("GUARDAMOS HISTORIAL")
+    console.log("HISTORIAL GUARDADO: ", historial)
     const res = await historialService.guardarHistorial(historialData)
     console.log("🚀 ~ file: Calculadora.jsx ~ line 59 ~ crearHistorial ~ res", res.data)
     
   }
-  
+
   useEffect(() => {
+    //GUARDAR EL HISTORIAL EN LA BD
+    crearHistorial()
 
-  }, []);
+  }, [historial]);
 
-  
-
-
+  //CREAMOS EL HISTORIAL
   if (sePresionoIgual){
-    
-
     setSePresionoIgual(false) //CON ESTO AVITAMOS MUCHOS RENDERIZADOS
     if (operacion == 'suma'){
       //Una forma de GUARDAR CONSTANTES como TEXTO es colocando: `${constante}`
@@ -88,25 +87,18 @@ function Calculadora() {
       setHistorial(`${numberA} / ${numberB} = ${resultado}`)
     }
 
-    console.log("crear Historial")
-    //historial = "2+3=5"
-    crearHistorial()
-
   }
+    
 
   //NUMERO A
   const handleNumberAChange = event => {
     setNumberA(event.target.value);
-    console.log("El numero A es: " + numberA)
   };
   
   //NUMERO B
   const handleNumberBChange = event => {
     setNumberB(event.target.value);
-    console.log("El numero B es: " + numberB) 
   }
-
-
 
   //CALCULAR RESULTADO
   const calcularResultado = () => {
@@ -126,7 +118,6 @@ function Calculadora() {
       setResultado (parseInt(numberA) / parseInt(numberB))
     }
     setSePresionoIgual(true)//Se presionó el botón igual
-
   }
 
   //OPERACION ELEGIDA
