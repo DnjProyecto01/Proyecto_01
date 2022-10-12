@@ -17,7 +17,7 @@ import * as historialService from '../Servicios/HistorialService.ts'
 
 const columns = [
   { field: 'fechaCreacion', headerName: 'FECHA', type: 'date', width: 200 },
-  { field: 'operacionH', headerName: 'OPERACIONES', width: 130 },
+  { field: 'operacionH', headerName: 'OPERACIONES', width: 428 },
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -155,11 +155,16 @@ function Calculadora() {
     setSePresionoIgual(true)//Se presionó el botón igual
   }
 
+  const borrarHistoriales = async () => {
+    const res = await historialService.borrarHistorial(selectionModel)
+    console.log("🚀 ~ file: Calculadora.jsx ~ line 160 ~ borrarHistoriales ~ res", res.data)
+  }
   //OPERACION ELEGIDA
   const handleChange = (event) => {
     setOperacion(event.target.value);
   };
 
+  const [selectionModel, setSelectionModel] = useState([]);
 
   return (
     <div className="App">
@@ -239,7 +244,14 @@ function Calculadora() {
               pageSize={5}
               rowsPerPageOptions={[5]}
               checkboxSelection
+              onSelectionModelChange={(newSelectionModel) => {
+                setSelectionModel(newSelectionModel);
+              }}
+              selectionModel={selectionModel}
             />
+            <Button variant="contained" color="default" onClick= {borrarHistoriales}>
+              borrar
+            </Button>          
           </div>
       </header>
 

@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import Historial from "./Historial";
+var mongoose = require('mongoose');
 
 export const guardarHistorial: RequestHandler = async (req, res) => {
 
@@ -40,6 +41,30 @@ export const obtenerHistoriales: RequestHandler = async (req, res) => {
     const historialesObtenidos = await Historial.find();
 
     return res.json({
+        
         historialesObtenidos
+        
+    });
+}
+
+export const borrarHistoriales: RequestHandler = async (req, res) => {
+
+    const selectionModel = req.params.historialesSeleccionados
+
+    const selectionModelArray = selectionModel.split(',')
+
+    const selectionModelObjectId = selectionModelArray.map(
+
+        (id: any) => {
+
+            return mongoose.Types.ObjectId(id)
+        }
+    )
+    
+    const historialborrado = await Historial.remove({_id : { $in: selectionModelObjectId}});
+
+    return res.json({
+
+        selectionModelObjectId
     });
 }
