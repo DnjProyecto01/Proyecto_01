@@ -50,7 +50,7 @@ function Calculadora() {
 
   //CREANDO LAS CONSTANTES
   const [lista, setLista] = useState([])
-  console.log("🚀 ~ file: Calculadora.jsx ~ line 53 ~ traerHistorial ~ Lista", lista)
+  //console.log("🚀 ~ file: Calculadora.jsx ~ line 53 ~ traerHistorial ~ Lista", lista)
   const [numberA, setNumberA ] = useState('')
   const [numberB, setNumberB ] = useState('')
   const [resultado, setResultado ] = useState(0)
@@ -156,6 +156,7 @@ function Calculadora() {
   }
 
   const borrarHistoriales = async () => {
+    //LE ENVIAMOS AL BACKEND EL ARRAY DE LOS HISTORIALES SELECCIONADOS (selectionModel)
     const res = await historialService.borrarHistorial(selectionModel)
     console.log("🚀 ~ file: Calculadora.jsx ~ line 160 ~ borrarHistoriales ~ res", res.data)
   }
@@ -164,7 +165,9 @@ function Calculadora() {
     setOperacion(event.target.value);
   };
 
+  //ARRAY DE LOS HISTORIALES SELECCIONADOS
   const [selectionModel, setSelectionModel] = useState([]);
+  console.log("🚀 ~ file: Calculadora.jsx ~ line 169 ~ Calculadora ~ selectionModel", selectionModel)
 
   return (
     <div className="App">
@@ -244,8 +247,9 @@ function Calculadora() {
               pageSize={5}
               rowsPerPageOptions={[5]}
               checkboxSelection
-              onSelectionModelChange={(newSelectionModel) => {
-                setSelectionModel(newSelectionModel);
+              onSelectionModelChange={(historialSeleccionado) => {
+                //CADA VEZ QUE SE SELECCIONA UN HISTORIAL SE SETEA EN LA VARIABLE SelectionModel
+                setSelectionModel(historialSeleccionado);
               }}
               selectionModel={selectionModel}
             />
