@@ -6,4 +6,6 @@ const router = Router();
 
 router.post('/historial', historialCtrl.guardarHistorial)
 
+router.get('/historial/historiales', historialCtrl.obtenerHistoriales )
+
 export default router

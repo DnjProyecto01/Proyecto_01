@@ -34,3 +34,12 @@ export const guardarHistorial: RequestHandler = async (req, res) => {
         historial
     });
 }
+
+export const obtenerHistoriales: RequestHandler = async (req, res) => {
+
+    const historialesObtenidos = await Historial.find();
+
+    return res.json({
+        historialesObtenidos
+    });
+}
