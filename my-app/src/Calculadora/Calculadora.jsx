@@ -10,9 +10,15 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Grid from '@mui/material/Grid';
+import { DataGrid } from '@mui/x-data-grid';
 
 //Traer TODOS LOS METODOS Y ATRIBUTOS como "historialService" desde "tal lugar"
 import * as historialService from '../Servicios/HistorialService.ts'
+
+const columns = [
+  { field: 'fechaCreacion', headerName: 'FECHA', type: 'date', width: 200 },
+  { field: 'operacionH', headerName: 'OPERACIONES', width: 428 },
+];
 
 const useStyles = makeStyles((theme) => ({
   titulo: {
@@ -40,8 +46,11 @@ const useStyles = makeStyles((theme) => ({
 function Calculadora() {
   console.log("render")
   const classes = useStyles();
+  
 
   //CREANDO LAS CONSTANTES
+  const [lista, setLista] = useState([])
+  //console.log("🚀 ~ file: Calculadora.jsx ~ line 53 ~ traerHistorial ~ Lista", lista)
   const [numberA, setNumberA ] = useState('')
   const [numberB, setNumberB ] = useState('')
   const [resultado, setResultado ] = useState(0)
@@ -63,9 +72,35 @@ function Calculadora() {
 
   useEffect(() => {
     //GUARDAR EL HISTORIAL EN LA BD
-    crearHistorial()
+    if (historial != "")
+    {
+      crearHistorial()
+    }
 
   }, [historial]);
+
+  const traerHistorial = async () => {
+    const res = await historialService.obtenerHistoriales()
+    //console.log("🚀 ~ file: Calculadora.jsx ~ line 83 ~ traerHistorial ~ historialesObtenidos", res.data.historialesObtenidos)
+    const nuevoArray = res.data.historialesObtenidos.map(
+          (cajita) => {
+            var nuevaFecha = new Date(cajita.createdAt);
+            nuevaFecha.toLocaleDateString('en-GB'); // dd/mm/yyyy
+            return { 
+                     id : cajita._id, 
+                     operacionH: cajita.operacionH, 
+                     fechaCreacion: nuevaFecha, 
+                     fechaModificacion: cajita.updatedAt
+                   }
+          }
+    )
+    //console.log("🚀 ~ file: Calculadora.jsx ~ line 96 ~ traerHistorial ~ nuevoArray", nuevoArray)
+    setLista(nuevoArray)
+  }
+
+  useEffect(() => {
+    traerHistorial()
+  }, []);
 
   //CREAMOS EL HISTORIAL
   if (sePresionoIgual){
@@ -120,11 +155,19 @@ function Calculadora() {
     setSePresionoIgual(true)//Se presionó el botón igual
   }
 
+  const borrarHistoriales = async () => {
+    //LE ENVIAMOS AL BACKEND EL ARRAY DE LOS HISTORIALES SELECCIONADOS (selectionModel)
+    const res = await historialService.borrarHistorial(selectionModel)
+    console.log("🚀 ~ file: Calculadora.jsx ~ line 160 ~ borrarHistoriales ~ res", res.data)
+  }
   //OPERACION ELEGIDA
   const handleChange = (event) => {
     setOperacion(event.target.value);
   };
 
+  //ARRAY DE LOS HISTORIALES SELECCIONADOS
+  const [selectionModel, setSelectionModel] = useState([]);
+  console.log("🚀 ~ file: Calculadora.jsx ~ line 169 ~ Calculadora ~ selectionModel", selectionModel)
 
   return (
     <div className="App">
@@ -197,7 +240,23 @@ function Calculadora() {
                 </Container>
               </Grid>
           </Grid>
-
+          <div style={{ height: 400, width: '100%' }}>
+            <DataGrid
+              rows={lista}
+              columns={columns}
+              pageSize={5}
+              rowsPerPageOptions={[5]}
+              checkboxSelection
+              onSelectionModelChange={(historialSeleccionado) => {
+                //CADA VEZ QUE SE SELECCIONA UN HISTORIAL SE SETEA EN LA VARIABLE SelectionModel
+                setSelectionModel(historialSeleccionado);
+              }}
+              selectionModel={selectionModel}
+            />
+            <Button variant="contained" color="default" onClick= {borrarHistoriales}>
+              borrar
+            </Button>          
+          </div>
       </header>
 
     </div>

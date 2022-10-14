@@ -4,3 +4,11 @@ import axios from 'axios';
 export const guardarHistorial = async (historialData: {}) => {
     return await axios.post('http://localhost:3001/historial/', historialData)
 }
+
+export const obtenerHistoriales = async () => {
+    return await axios.get('http://localhost:3001/historial/historiales')
+}
+
+export const borrarHistorial = async (historialesSeleccionados: String[]) => {
+    return await axios.delete('http://localhost:3001/historial/historialesBorrados/' + historialesSeleccionados)
+}
