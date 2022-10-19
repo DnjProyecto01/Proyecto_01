@@ -33,14 +33,29 @@ const useStyles = makeStyles((theme) => ({
     height: '95vh',
     maxWidth: '520px',
      
-  }, 
+  },
+  app: {
+    backgroundColor: '#ffffff',
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: 'calc(10px + 2vmin)',
+    color: 'white',
+    margin: '1rem'
+  },
   container: {
     color: "black",
-     
-  },  
-
-  
-  
+  },
+  grid: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: '1rem'
+  },
+  button: {
+    margin: '1rem'
+  }
 }));
 
 function Calculadora() {
@@ -54,7 +69,7 @@ function Calculadora() {
   const [numberA, setNumberA ] = useState('')
   const [numberB, setNumberB ] = useState('')
   const [resultado, setResultado ] = useState(0)
-  const [operacion, setOperacion] = useState(''); //Este es nuestro "age"
+  const [operacion, setOperacion] = useState('suma'); //Este es nuestro "age"
   const [historial, setHistorial] = useState('');
   const [sePresionoIgual, setSePresionoIgual] = useState(false);
 
@@ -67,6 +82,7 @@ function Calculadora() {
     console.log("HISTORIAL GUARDADO: ", historial)
     const res = await historialService.guardarHistorial(historialData)
     console.log("🚀 ~ file: Calculadora.jsx ~ line 59 ~ crearHistorial ~ res", res.data)
+    traerHistorial()
     
   }
 
@@ -159,6 +175,7 @@ function Calculadora() {
     //LE ENVIAMOS AL BACKEND EL ARRAY DE LOS HISTORIALES SELECCIONADOS (selectionModel)
     const res = await historialService.borrarHistorial(selectionModel)
     console.log("🚀 ~ file: Calculadora.jsx ~ line 160 ~ borrarHistoriales ~ res", res.data)
+    traerHistorial()
   }
   //OPERACION ELEGIDA
   const handleChange = (event) => {
@@ -167,16 +184,15 @@ function Calculadora() {
 
   //ARRAY DE LOS HISTORIALES SELECCIONADOS
   const [selectionModel, setSelectionModel] = useState([]);
-  console.log("🚀 ~ file: Calculadora.jsx ~ line 169 ~ Calculadora ~ selectionModel", selectionModel)
+  //console.log("🚀 ~ file: Calculadora.jsx ~ line 169 ~ Calculadora ~ selectionModel", selectionModel)
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className={classes.app}>
         <div className={classes.titulo}>
           CALCULADORA
         </div>
-          <Grid container spacing={2}>
-              <Grid item xs={5} md={4}>
+          <Grid className={classes.grid} container spacing={2}>
+              <Grid item xs={4.5} md={4}>
                 {/* NUMERO A */}
                 <TextField 
                   color="secondary"
@@ -192,7 +208,7 @@ function Calculadora() {
                   
                 />
               </Grid>
-              <Grid item xs={2} md={2}>
+              <Grid item xs={3} md={2}>
                 {/* OPERACIONES */}
                   <Box >
                       <FormControl fullWidth>
@@ -212,7 +228,7 @@ function Calculadora() {
                       </FormControl>
                   </Box>
               </Grid>
-              <Grid item xs={5} md={4}>
+              <Grid item xs={4.5} md={4}>
                         {/* NUMERO B */}
                     <TextField 
                       color="secondary"
@@ -229,15 +245,22 @@ function Calculadora() {
               </Grid>
               <Grid item xs={6} md={2}>
                         {/* BOTÓN IGUAL */}
-                <Button variant="contained" color="default" onClick = {calcularResultado}>
+                <Button 
+                  disabled={(numberA == '' || numberB == '') ? true: false}
+                  variant="contained" 
+                  color="default" 
+                  onClick = {calcularResultado}
+                  >
                   =
                 </Button>
               </Grid>
               <Grid item xs={6} md={12}>
                         {/* RESULTADO */}
-                <Container className={classes.container} maxWidth="xs">
-                  {resultado}
-                </Container>
+                <Box sx={{ border: 1, borderRadius: 1, borderColor: 'text.disabled', marginBottom: 1}}>
+                  <Container className={classes.container} maxWidth="xs">
+                    {resultado}
+                  </Container>
+                </Box>
               </Grid>
           </Grid>
           <div style={{ height: 400, width: '100%' }}>
@@ -253,12 +276,10 @@ function Calculadora() {
               }}
               selectionModel={selectionModel}
             />
-            <Button variant="contained" color="default" onClick= {borrarHistoriales}>
+            <Button className={classes.button} variant="contained" color="default" onClick= {borrarHistoriales}>
               borrar
             </Button>          
           </div>
-      </header>
-
     </div>
   );
 }
