@@ -20,6 +20,7 @@ const columns = [
   { field: 'operacionH', headerName: 'OPERACIONES', width: 428 },
 ];
 
+//ESTILOS
 const useStyles = makeStyles((theme) => ({
   titulo: {
     color: "black",
@@ -32,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     height: '95vh',
     maxWidth: '520px',
-     
   },
   app: {
     backgroundColor: '#ffffff',
@@ -58,20 +58,21 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+//FUNCION PRINCIPAL
 function Calculadora() {
-  console.log("render")
-  const classes = useStyles();
   
-
   //CREANDO LAS CONSTANTES
+  const classes = useStyles();
   const [lista, setLista] = useState([])
-  //console.log("🚀 ~ file: Calculadora.jsx ~ line 53 ~ traerHistorial ~ Lista", lista)
   const [numberA, setNumberA ] = useState('')
   const [numberB, setNumberB ] = useState('')
   const [resultado, setResultado ] = useState(0)
   const [operacion, setOperacion] = useState('suma'); //Este es nuestro "age"
   const [historial, setHistorial] = useState('');
   const [sePresionoIgual, setSePresionoIgual] = useState(false);
+  const [selectionModel, setSelectionModel] = useState([]); //ARRAY DE LOS HISTORIALES SELECCIONADOS
+
+  //Funciones
 
   const crearHistorial = async () => {
     //historial = "2+3=5"
@@ -142,12 +143,13 @@ function Calculadora() {
     
 
   //NUMERO A
-  const handleNumberAChange = event => {
+  const cambiarValorNumberA = event => {
     setNumberA(event.target.value);
   };
+  console.log("NumberA: ", numberA)
   
   //NUMERO B
-  const handleNumberBChange = event => {
+  const cambiarValorNumberB = event => {
     setNumberB(event.target.value);
   }
 
@@ -177,14 +179,11 @@ function Calculadora() {
     console.log("🚀 ~ file: Calculadora.jsx ~ line 160 ~ borrarHistoriales ~ res", res.data)
     traerHistorial()
   }
+
   //OPERACION ELEGIDA
-  const handleChange = (event) => {
+  const cambiarOperacion = (event) => {
     setOperacion(event.target.value);
   };
-
-  //ARRAY DE LOS HISTORIALES SELECCIONADOS
-  const [selectionModel, setSelectionModel] = useState([]);
-  //console.log("🚀 ~ file: Calculadora.jsx ~ line 169 ~ Calculadora ~ selectionModel", selectionModel)
 
   return (
     <div className={classes.app}>
@@ -192,7 +191,7 @@ function Calculadora() {
           CALCULADORA
         </div>
           <Grid className={classes.grid} container spacing={2}>
-              <Grid item xs={4.5} md={4}>
+             <Grid item xs={4.5} md={4}>
                 {/* NUMERO A */}
                 <TextField 
                   color="secondary"
@@ -204,10 +203,10 @@ function Calculadora() {
                   }}  
                   variant="outlined"
                   value = {numberA}
-                  onChange = {handleNumberAChange}
+                  onChange = {cambiarValorNumberA}
                   
                 />
-              </Grid>
+               </Grid>
               <Grid item xs={3} md={2}>
                 {/* OPERACIONES */}
                   <Box >
@@ -218,7 +217,7 @@ function Calculadora() {
                           id="demo-simple-select"
                           value={operacion}
                           label="Operaciones"
-                          onChange={handleChange}
+                          onChange={cambiarOperacion}
                           >
                           <MenuItem value={"suma"}>+</MenuItem>
                           <MenuItem value={"resta"}>-</MenuItem>
@@ -240,11 +239,11 @@ function Calculadora() {
                       }}  
                       variant="outlined"
                       value = {numberB}
-                      onChange = {handleNumberBChange}
+                      onChange = {cambiarValorNumberB}
                     />  
               </Grid>
               <Grid item xs={6} md={2}>
-                        {/* BOTÓN IGUAL */}
+                {/* BOTÓN IGUAL */}
                 <Button 
                   disabled={(numberA == '' || numberB == '') ? true: false}
                   variant="contained" 
@@ -255,7 +254,7 @@ function Calculadora() {
                 </Button>
               </Grid>
               <Grid item xs={6} md={12}>
-                        {/* RESULTADO */}
+                {/* RESULTADO */}
                 <Box sx={{ border: 1, borderRadius: 1, borderColor: 'text.disabled', marginBottom: 1}}>
                   <Container className={classes.container} maxWidth="xs">
                     {resultado}
