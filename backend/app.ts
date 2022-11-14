@@ -4,6 +4,7 @@ import morgan from 'morgan'
 import cors from 'cors'
 import responseTime from 'response-time'
 import historialRutas from './rutas/historial.rutas'
+import alumnoRutas from './rutas/alumno.rutas'
 import config from './config'
 
 //Creamos una clase "EXPRESS" con el nombre "app"
@@ -57,5 +58,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(responseTime());
 
 app.use(historialRutas)
+app.use(alumnoRutas)
 
 export default app;

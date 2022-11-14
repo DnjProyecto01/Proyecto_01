@@ -89,7 +89,7 @@ function Calculadora() {
 
   useEffect(() => {
     //GUARDAR EL HISTORIAL EN LA BD
-    if (historial != "")
+    if (historial !== "")
     {
       crearHistorial()
     }
@@ -122,20 +122,20 @@ function Calculadora() {
   //CREAMOS EL HISTORIAL
   if (sePresionoIgual){
     setSePresionoIgual(false) //CON ESTO AVITAMOS MUCHOS RENDERIZADOS
-    if (operacion == 'suma'){
+    if (operacion === 'suma'){
       //Una forma de GUARDAR CONSTANTES como TEXTO es colocando: `${constante}`
       setHistorial(`${numberA} + ${numberB} = ${resultado}`)
     }
 
-    if (operacion == 'resta'){
+    if (operacion === 'resta'){
       setHistorial(`${numberA} - ${numberB} = ${resultado}`)
     }
 
-    if (operacion == 'multiplicacion'){
+    if (operacion === 'multiplicacion'){
       setHistorial(`${numberA} * ${numberB} = ${resultado}`)
     }
 
-    if (operacion == 'division'){
+    if (operacion === 'division'){
       setHistorial(`${numberA} / ${numberB} = ${resultado}`)
     }
 
@@ -146,7 +146,6 @@ function Calculadora() {
   const cambiarValorNumberA = event => {
     setNumberA(event.target.value);
   };
-  console.log("NumberA: ", numberA)
   
   //NUMERO B
   const cambiarValorNumberB = event => {
@@ -155,19 +154,19 @@ function Calculadora() {
 
   //CALCULAR RESULTADO
   const calcularResultado = () => {
-    if (operacion == 'suma'){
+    if (operacion === 'suma'){
       setResultado (parseInt(numberA) + parseInt(numberB))
     }
 
-    if (operacion == 'resta'){
+    if (operacion === 'resta'){
       setResultado (parseInt(numberA) - parseInt(numberB))
     }
 
-    if (operacion == 'multiplicacion'){
+    if (operacion === 'multiplicacion'){
       setResultado (parseInt(numberA) * parseInt(numberB))
     }
 
-    if (operacion == 'division'){
+    if (operacion === 'division'){
       setResultado (parseInt(numberA) / parseInt(numberB))
     }
     setSePresionoIgual(true)//Se presionó el botón igual
@@ -245,7 +244,7 @@ function Calculadora() {
               <Grid item xs={6} md={2}>
                 {/* BOTÓN IGUAL */}
                 <Button 
-                  disabled={(numberA == '' || numberB == '') ? true: false}
+                  disabled={(numberA === '' || numberB === '') ? true: false}
                   variant="contained" 
                   color="default" 
                   onClick = {calcularResultado}

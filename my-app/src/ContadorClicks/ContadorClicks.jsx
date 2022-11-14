@@ -19,7 +19,6 @@ const usarEstilos = makeStyles((theme) => ({
 })) 
 
 function ContadorClicks() {
-  console.log("render")
   //Variable = es aquello que puede cambiar su valor
   //Constante = es aquello que matiene su valor siempre igual
 
@@ -31,7 +30,6 @@ function ContadorClicks() {
   //const contador = 0
   const [contador , setContador] = useState(0)
   const [bandera , setBandera] = useState(false)
-  console.log("Contador = " + contador)
 
   //CREAMOS LA FUNCIONALIDAD
   const alHacerClick = () => {
