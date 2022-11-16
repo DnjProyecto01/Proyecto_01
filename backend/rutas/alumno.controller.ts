@@ -22,3 +22,15 @@ export const guardarAlumno: RequestHandler = async (req, res) => {
         alumno
     });
 }
+
+export const obtenerAlumnos: RequestHandler = async (req, res) => {
+
+    const alumnosObtenidos = await Alumno.find();
+    console.log("🚀 ~ file: alumno.controller.ts ~ line 29 ~ constobtenerAlumnos:RequestHandler= ~ alumnosObtenidos", alumnosObtenidos)
+
+    return res.json({
+        
+        alumnosObtenidos
+        
+    });
+}

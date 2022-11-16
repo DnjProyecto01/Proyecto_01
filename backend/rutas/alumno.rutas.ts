@@ -6,7 +6,7 @@ const router = Router();
 
 router.post('/alumno', alumnoCtrl.guardarAlumno)
 
-// router.get('/alumno/alumnos', alumnoCtrl.obtenerAlumnos )
+router.get( '/alumno/alumnos', alumnoCtrl.obtenerAlumnos )
 
 // router.delete('/alumno/alumnosBorrados/:alumnosSeleccionados', alumnoCtrl.borrarAlumnos)
 

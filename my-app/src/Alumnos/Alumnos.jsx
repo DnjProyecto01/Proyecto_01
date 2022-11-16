@@ -1,12 +1,13 @@
 import '../App.css';
 import {makeStyles} from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField';
-import { useState} from 'react';
+import { useEffect, useState} from 'react';
 import Button from '@material-ui/core/Button'
 import Grid from '@mui/material/Grid';
 
 //Traer TODOS LOS METODOS Y ATRIBUTOS como "historialService" desde "tal lugar"
 import * as alumnoService from '../Servicios/AlumnoService.ts'
+import useEnhancedEffect from '@mui/material/utils/useEnhancedEffect';
 
 //ESTILOS
 const useStyles = makeStyles((theme) => ({
@@ -48,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 //FUNCION PRINCIPAL
 function Alumnos() {
+ 
 
   //CREANDO LAS CONSTANTES
   const classes = useStyles();
@@ -72,9 +74,21 @@ function Alumnos() {
     //ENVIARLO AL BACKEND
     const res = await alumnoService.guardarAlumno(alumnoData)
     console.log("🚀 ~ file: Alumnos.jsx ~ line 77 ~ cargarAlumno ~ res", res.data)
-    //traerAlumnos()
+    
+    traerAlumno() // Cuando cargamos un alumno en  la BD, traemos los alumnos mas el nuevo alumno agregado de la BD   
   }    
 
+  const traerAlumno = async () => {
+    const res = await alumnoService.obtenerAlumnos()
+    console.log("🚀 ~ file: Alumnos.jsx ~ line 83 ~ traerAlumno ~ res", res.data)
+    
+  }
+
+  // Cuando cargamos el componente "Alumnos" traemos los alumnos
+  useEffect( () => {
+    //TODOS LAS FUNCIONES QUE QUIERES QUE SE EJECUTEN AL RENDERIZAR ALGUN COMPONENTE
+    traerAlumno()
+  }, []) //No ponemos nada, para que el useEffect ejecute las funciones solo cuando cargue el componente
   
 
   return (
