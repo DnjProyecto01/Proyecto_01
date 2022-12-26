@@ -5,6 +5,7 @@ import {useState} from 'react';
 import Calculadora from './Calculadora/Calculadora';
 import ContadorClicks from './ContadorClicks/ContadorClicks';
 import Alumnos from './Alumnos/Alumnos';
+import FyV from './Frutas-V-Verduras/FyV';
 
 import { makeStyles } from '@mui/styles';
 
@@ -98,13 +99,19 @@ function App() {
                     aria-label="full width tabs example"
                 >
                 <Tab label="CALCULADORA"{...a11yProps(0)} wrapped/>
-                <Tab label="ALUMNOS" {...a11yProps(1)} wrapped/>
-                <Tab label="CONTADOR DE CLICKS" {...a11yProps(2)} wrapped/>
+                <Tab label="FRUTAS Y VERDURAS"{...a11yProps(1)} wrapped/>
+                <Tab label="ALUMNOS" {...a11yProps(2)} wrapped/>
+                <Tab label="CONTADOR DE CLICKS" {...a11yProps(3)} wrapped/>
                 </Tabs>
             </AppBar>
             <TabPanel value={valueTab} index={0}>
               <div className="App-header">
                 <Calculadora/>
+              </div>
+            </TabPanel>
+            <TabPanel value={valueTab} index={0}>
+              <div className="App-header">
+                <FyV/>
               </div>
             </TabPanel>
             <TabPanel value={valueTab} index={1}>
