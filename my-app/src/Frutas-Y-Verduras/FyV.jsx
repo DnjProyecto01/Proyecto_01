@@ -100,11 +100,15 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function FyV() {
-
+  //ESTILOS
   const classes = useStyles();
+
+  //FUNCION -> Cambiar valor de la variable Frutas y Verduras
   const valorFrutasYVerdurasChange = (event, newValue) => {
-    setFrutasyVerduras(newValue);
+    setFrutasyVerduras(newValue.label);
   };
+
+  //DATOS DE FyV
   const topFrutasYVerduras = [
     { label: 'brocoli'},
     { label: 'banana'},
@@ -112,11 +116,13 @@ function FyV() {
     { label: 'naranja'}
   ]
 
-  const [frutasYVerduras, setFrutasyVerduras] = useState(topFrutasYVerduras[0].label)
+  //VARIABLE DE ESTADO - FRUTAS Y VERDURAS
+  const [frutasYVerduras, setFrutasyVerduras] = useState("")
   console.log("🚀 ~ file: FyV.jsx ~ line 116 ~ FyV ~ frutasYVerduras", frutasYVerduras)
 
   return (
     <div className={classes.app}>
+      {/* TITULO */}
       <div className={classes.titulo}>
         Verduras
       </div>
@@ -126,6 +132,8 @@ function FyV() {
       <div className={classes.titulo3}>
         Frutas
       </div>
+
+      {/* AUTOCOMPLETE Y BUTTON */}
       <div className={classes.caja}>
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={0}>
@@ -133,19 +141,19 @@ function FyV() {
                 <Autocomplete
                   disablePortal
                   id="combo-box-demo"
-                  options={topFrutasYVerduras}
+                  options={topFrutasYVerduras} //LISTA DE OPCIONES
                   sx={{ width: 300 }}
                   renderInput={(params) => <TextField {...params} label="Frutas y Verduras" />}
-                  onChange={valorFrutasYVerdurasChange}
-                  value={frutasYVerduras}
-                  />
+                  onChange={valorFrutasYVerdurasChange} // SE ACTIVA CADA VEZ QUE SE SELECCIONA UNA OPCION
+                  value={frutasYVerduras} // LO QUE MUESTRA EL AUTOCOMPLETE EN EL CAMPO DE TEXTO
+                />
                 
               </Grid>
               <Grid item xs={4} md={4}>
                 <Button
                   className={classes.button}
                   variant="outlined"
-                  disabled={(frutasYVerduras.label == '') ? true : false}
+                  disabled={(frutasYVerduras == '') ? true : false} //DESHABILITAR EL BOTON
                 
                   /*onClick={sePresionoGuardar} */>
                     GUARDAR
