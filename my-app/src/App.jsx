@@ -5,7 +5,7 @@ import {useState} from 'react';
 import Calculadora from './Calculadora/Calculadora';
 import ContadorClicks from './ContadorClicks/ContadorClicks';
 import Alumnos from './Alumnos/Alumnos';
-import FyV from './Frutas-V-Verduras/FyV';
+import FyV from './Frutas-Y-Verduras/FyV';
 
 import { makeStyles } from '@mui/styles';
 
@@ -109,17 +109,17 @@ function App() {
                 <Calculadora/>
               </div>
             </TabPanel>
-            <TabPanel value={valueTab} index={0}>
+            <TabPanel value={valueTab} index={1}>
               <div className="App-header">
                 <FyV/>
               </div>
             </TabPanel>
-            <TabPanel value={valueTab} index={1}>
+            <TabPanel value={valueTab} index={2}>
               <div className="App-header">
                 <Alumnos/>
               </div>
             </TabPanel>
-            <TabPanel value={valueTab} index={2}>
+            <TabPanel value={valueTab} index={3}>
               <div className="App-header">
                 <ContadorClicks/> 
               </div>
