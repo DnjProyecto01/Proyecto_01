@@ -147,7 +147,6 @@ function FyV() {
                   onChange={valorFrutasYVerdurasChange} // SE ACTIVA CADA VEZ QUE SE SELECCIONA UNA OPCION
                   value={frutasYVerduras} // LO QUE MUESTRA EL AUTOCOMPLETE EN EL CAMPO DE TEXTO
                 />
-                
               </Grid>
               <Grid item xs={4} md={4}>
                 <Button

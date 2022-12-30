@@ -23,7 +23,7 @@ const columns = [
 //ESTILOS
 const useStyles = makeStyles((theme) => ({
   titulo: {
-    color: "black",
+    color: "white",
     position: 'fixed',
     right: 0,
     left: 0,
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '520px',
   },
   app: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#17171B',
     minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
@@ -111,7 +111,7 @@ function Calculadora() {
                    }
           }
     )
-    //console.log("🚀 ~ file: Calculadora.jsx ~ line 96 ~ traerHistorial ~ nuevoArray", nuevoArray)
+    console.log("🚀 ~ file: Calculadora.jsx ~ line 96 ~ traerHistorial ~ nuevoArray", nuevoArray)
     setLista(nuevoArray)
   }
 

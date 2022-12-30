@@ -8,6 +8,6 @@ router.post('/alumno', alumnoCtrl.guardarAlumno)
 
 router.get( '/alumno/alumnos', alumnoCtrl.obtenerAlumnos )
 
-// router.delete('/alumno/alumnosBorrados/:alumnosSeleccionados', alumnoCtrl.borrarAlumnos)
+router.delete('/alumno/alumnosBorrados/:alumnosSeleccionados', alumnoCtrl.borrarAlumnos)
 
 export default router

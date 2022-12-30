@@ -1,18 +1,24 @@
 import '../App.css';
-import {makeStyles} from '@material-ui/core/styles'
+import {makeStyles, styled} from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField';
 import { useEffect, useState} from 'react';
 import Button from '@material-ui/core/Button'
 import Grid from '@mui/material/Grid';
+import { DataGrid } from '@mui/x-data-grid';
+import './alumnos.css'
 
 //Traer TODOS LOS METODOS Y ATRIBUTOS como "historialService" desde "tal lugar"
 import * as alumnoService from '../Servicios/AlumnoService.ts'
-import useEnhancedEffect from '@mui/material/utils/useEnhancedEffect';
+
+const columns = [
+  { field: 'fechaCreacion', headerName: 'FECHA', type: 'date', width: 200 },
+  { field: 'nombreAlumno', headerName: 'ALUMNO', type: 'string', width: 428 },
+];
 
 //ESTILOS
 const useStyles = makeStyles((theme) => ({
     titulo: {
-      color: "black",
+      color: "white",
       position: 'fixed',
       right: 0,
       left: 0,
@@ -24,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
       maxWidth: '520px',
     },
     app: {
-      backgroundColor: '#ffffff',
+      backgroundColor: '#17171B',
       minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
@@ -47,6 +53,27 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
+const CssTextField = styled(TextField)({
+  '& label.Mui-focused': {
+    color: 'white',
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: 'green',
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: 'white',
+    },
+    '&:hover fieldset': {
+      borderColor: '#00ECFF',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: '#00ECFF',
+      border: '3px solid', 
+    },
+  },
+});
+
 //FUNCION PRINCIPAL
 function Alumnos() {
  
@@ -54,6 +81,9 @@ function Alumnos() {
   //CREANDO LAS CONSTANTES
   const classes = useStyles();
   const [nombreAlumno, setNombreAlumno ] = useState('')
+  const [lista, setLista] = useState([])
+  const [selectionModel, setSelectionModel] = useState([]); //ARRAY DE LOS ALUMNOS SELECCIONADOS
+
 
   //FUNCIONES
 
@@ -63,68 +93,100 @@ function Alumnos() {
 
   const cargarAlumno = async () => {
     //nombre Alumno = "Daniel Diaz"
-    console.log("Nombre Alumno: ", nombreAlumno)
 
     //CREAS EL OBJETO QUE VAS A ENVIAR AL BACKEND
     const alumnoData = {
         'nombreAlumno': nombreAlumno
     }
-    console.log("🚀 ~ file: Alumnos.jsx ~ line 76 ~ cargarAlumno ~ alumnoData", alumnoData)
 
     //ENVIARLO AL BACKEND
     const res = await alumnoService.guardarAlumno(alumnoData)
-    console.log("🚀 ~ file: Alumnos.jsx ~ line 77 ~ cargarAlumno ~ res", res.data)
     
     traerAlumno() // Cuando cargamos un alumno en  la BD, traemos los alumnos mas el nuevo alumno agregado de la BD   
-  }    
+  }
 
   const traerAlumno = async () => {
     const res = await alumnoService.obtenerAlumnos()
-    console.log("🚀 ~ file: Alumnos.jsx ~ line 83 ~ traerAlumno ~ res", res.data)
-    
+    const nuevoArray = res.data.alumnosObtenidos.map(
+      (alumno) => {
+        var nuevaFecha = new Date(alumno.createdAt);
+        nuevaFecha.toLocaleDateString('en-GB'); // dd/mm/yyyy
+        return { 
+                 id : alumno._id, 
+                 nombreAlumno: alumno.nombreAlumno, 
+                 fechaCreacion: nuevaFecha, 
+                 fechaModificacion: alumno.updatedAt
+               }
+      }
+    )
+    setLista(nuevoArray) 
+
   }
 
   // Cuando cargamos el componente "Alumnos" traemos los alumnos
   useEffect( () => {
     //TODOS LAS FUNCIONES QUE QUIERES QUE SE EJECUTEN AL RENDERIZAR ALGUN COMPONENTE
     traerAlumno()
+
   }, []) //No ponemos nada, para que el useEffect ejecute las funciones solo cuando cargue el componente
   
+  const borrarAlumnos = async () => {
+    //LE ENVIAMOS AL BACKEND EL ARRAY DE LOS Alumnos SELECCIONADOS (selectionModel)
+    const res = await alumnoService.borrarAlumnos(selectionModel)
+    traerAlumno()
+  }
+
 
   return (
     <div className={classes.app}>
         <div className={classes.titulo}>
           ALUMNOS
         </div>
-            <Grid className={classes.grid} container spacing={2}>
-                <Grid item xs={10} md={10}>
-                        {/* nombreAlumno */}
-                        <TextField 
-                        color="secondary"
-                        id="outlined-number"
-                        label="Nombre Alumno"
-                        type="text"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}  
-                        variant="outlined"
-                        value = {nombreAlumno}
-                        onChange = {cambiarValorNombreAlumno}
-                        
-                        />
-                </Grid>
-                <Grid item xs={2} md={2}>
-                        {/* BOTÓN IGUAL */}
-                        <Button 
-                        disabled={(nombreAlumno === 3) ? true: false}
-                        variant="contained" 
-                        color="default" 
-                        onClick = {cargarAlumno}
-                        >
-                        GUARDAR
-                        </Button>
-                </Grid>
+          <Grid className={classes.grid} container spacing={2}>
+            <Grid item xs={10} md={10}>
+              {/* nombreAlumno */}
+              <CssTextField
+                color="primary"
+                id="outlined-number"
+                label="Nombre Alumno"
+                type="text"
+                InputLabelProps={{
+                    shrink: true,
+                }}  
+                variant="outlined"
+                value = {nombreAlumno} // LO QUE MUESTRA EN EL CAMPO DE TEXTO
+                onChange = {cambiarValorNombreAlumno} // SE ACTIVA CADA VEZ QUE SE CAMBIA EL TEXTO
+              />
             </Grid>
+              <Grid item xs={2} md={2}>
+                {/* BOTÓN IGUAL */}
+                <Button 
+                  disabled={(nombreAlumno === "") ? true: false}
+                  variant="contained" 
+                  color="default" 
+                  onClick = {cargarAlumno} // SE ACTIVA CADA VEZ QUE SE HACE CLICK
+                >
+                  GUARDAR
+                </Button>
+              </Grid>
+          </Grid>
+          <div style={{ height: 400, width: '50vh' }}>
+            <DataGrid
+              rows={lista}
+              columns={columns}
+              pageSize={5}
+              rowsPerPageOptions={[5]}
+              checkboxSelection
+              onSelectionModelChange={(alumnoSeleccionado) => {
+                //CADA VEZ QUE SE SELECCIONA UN HISTORIAL SE SETEA EN LA VARIABLE SelectionModel
+                setSelectionModel(alumnoSeleccionado);
+              }}
+              selectionModel={selectionModel}
+            />
+            <Button className={classes.button} variant="contained" color="default" onClick= {borrarAlumnos}>
+              borrar
+            </Button>          
+          </div>
     </div>
   );
 }
