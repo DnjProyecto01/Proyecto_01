@@ -24,11 +24,26 @@
 }
 
 .MuiTablePagination-actions .MuiButtonBase-root {
-    
+
     color: white !important;
 }
 
 .MuiFormLabel-root {
+
+    color: white !important;
+}
+
+.MuiDataGrid-selectedRowCount {
+
+    color: white !important;
+}
+
+.MuiDataGrid-menuIcon .MuiButtonBase-root {
+
+    color: white !important;
+}
+
+.MuiDataGrid-iconButtonContainer .MuiButtonBase-root {
 
     color: white !important;
 }

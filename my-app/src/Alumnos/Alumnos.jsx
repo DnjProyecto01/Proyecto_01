@@ -170,10 +170,15 @@ function Alumnos() {
                 </Button>
               </Grid>
           </Grid>
-          <div style={{ height: 400, width: '50vh' }}>
+          <div style={{ height: 400, width: '60vh' }}>
             <DataGrid
               rows={lista}
               columns={columns}
+              initialState={{
+                sorting: {
+                  sortModel: [{ field: 'fechaCreacion', sort: 'desc' }],
+                },
+              }}
               pageSize={5}
               rowsPerPageOptions={[5]}
               checkboxSelection
@@ -183,7 +188,7 @@ function Alumnos() {
               }}
               selectionModel={selectionModel}
             />
-            <Button className={classes.button} variant="contained" color="default" onClick= {borrarAlumnos}>
+            <Button className={classes.button} variant="contained" color="default" onClick= {borrarAlumnos} disabled={(selectionModel.length === 0) ? true: false}> 
               borrar
             </Button>          
           </div>
