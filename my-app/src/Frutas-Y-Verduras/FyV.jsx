@@ -12,7 +12,7 @@ import Grid from '@mui/material/Grid';
 import { DataGrid } from '@mui/x-data-grid';
 import { ClassNames } from '@emotion/react';
 import { green } from '@material-ui/core/colors';
-import TextField from '@mui/material/TextField';
+import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
 
@@ -104,17 +104,9 @@ function FyV() {
   const classes = useStyles();
 
   //FUNCION -> Cambiar valor de la variable Frutas y Verduras
-  const valorFrutasYVerdurasChange = (event, newValue) => {
-    setFrutasyVerduras(newValue.label);
+  const valorFrutasYVerdurasChange = (event) => {
+    setFrutasyVerduras(event.target.value);
   };
-
-  //DATOS DE FyV
-  const topFrutasYVerduras = [
-    { label: 'brocoli'},
-    { label: 'banana'},
-    { label: 'berenjena'},
-    { label: 'naranja'}
-  ]
 
   //VARIABLE DE ESTADO - FRUTAS Y VERDURAS
   const [frutasYVerduras, setFrutasyVerduras] = useState("")
@@ -138,15 +130,19 @@ function FyV() {
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={0}>
               <Grid item xs={8} md={8}>
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={topFrutasYVerduras} //LISTA DE OPCIONES
-                  sx={{ width: 300 }}
-                  renderInput={(params) => <TextField {...params} label="Frutas y Verduras" />}
-                  onChange={valorFrutasYVerdurasChange} // SE ACTIVA CADA VEZ QUE SE SELECCIONA UNA OPCION
-                  value={frutasYVerduras} // LO QUE MUESTRA EL AUTOCOMPLETE EN EL CAMPO DE TEXTO
-                />
+               <TextField 
+                id="outlined-basic" 
+                color="secondary"
+                label="Frutas y Verdura"
+                type="text"
+                variant="outlined"
+                InputLabelProps={{
+                  shrink: true,
+                }}  
+                onChange={valorFrutasYVerdurasChange} // SE ACTIVA CADA VEZ QUE SE SELECCIONA UNA OPCION
+                value={frutasYVerduras} // LO QUE MUESTRA EL AUTOCOMPLETE EN EL CAMPO DE TEXTO
+               />
+               
               </Grid>
               <Grid item xs={4} md={4}>
                 <Button
